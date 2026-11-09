@@ -1,3 +1,17 @@
+<p align="center">
+  <img src="docs/logo.png" alt="NagaPandasticPro logosu" width="180">
+</p>
+
+<h1 align="center">NagaPandasticPro</h1>
+
+<p align="center">Razer Naga V3 Pro için macOS özelleştirme uygulaması. Razer Synapse olmadan tuş atamaları, makrolar, profiller, DPI ve RGB ışık ayarları.</p>
+
+## Ekran görüntüleri
+
+<p align="center">
+  <img src="docs/screenshots/aydinlatma.png" alt="NagaPandasticPro aydınlatma ayarları" width="720">
+</p>
+
 # NagaPandasticPro — Razer Naga V3 Pro için macOS özelleştirme uygulaması
 
 Razer Synapse'in artık macOS'ta olmamasının yerini doldurmak için yazılmış, yerel (SwiftUI) bir uygulama.
