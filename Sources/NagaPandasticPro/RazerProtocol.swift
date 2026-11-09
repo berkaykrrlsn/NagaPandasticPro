@@ -12,14 +12,15 @@ enum RazerIDs {
     /// Naga V3 Pro: kablolu ve HyperSpeed alıcı. Diğer Naga modelleri ürün adından tanınır.
     static let nagaProductIDs: Set<Int> = [0x00A7, 0x00A8]
 
+    /// Kablolu, HyperSpeed ve Bluetooth bağlantıda cihazın satıcı/ürün kimliği değişebilir.
+    /// Bu yüzden önce ürün adına bakılır; kimlik yalnızca yedek olarak kullanılır.
     static func isNaga(_ device: IOHIDDevice?) -> Bool {
         guard let device else { return false }
-        let vid = IOHIDDeviceGetProperty(device, kIOHIDVendorIDKey as CFString) as? Int ?? 0
-        guard vid == vendorID else { return false }
-        let pid = IOHIDDeviceGetProperty(device, kIOHIDProductIDKey as CFString) as? Int ?? 0
-        if nagaProductIDs.contains(pid) { return true }
         let name = IOHIDDeviceGetProperty(device, kIOHIDProductKey as CFString) as? String ?? ""
-        return name.localizedCaseInsensitiveContains("naga")
+        if name.localizedCaseInsensitiveContains("naga") { return true }
+        let vid = IOHIDDeviceGetProperty(device, kIOHIDVendorIDKey as CFString) as? Int ?? 0
+        let pid = IOHIDDeviceGetProperty(device, kIOHIDProductIDKey as CFString) as? Int ?? 0
+        return vid == vendorID && nagaProductIDs.contains(pid)
     }
 
     static func intProperty(_ device: IOHIDDevice, _ key: String) -> Int {
@@ -135,7 +136,9 @@ final class RazerController: ObservableObject {
     func start() {
         guard manager == nil else { return }
         let m = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
-        IOHIDManagerSetDeviceMatching(m, [kIOHIDVendorIDKey: RazerIDs.vendorID] as CFDictionary)
+        // Satıcı filtresi koymuyoruz: Bluetooth'ta cihaz farklı kimlikle gelebilir.
+        // Naga olup olmadığına RazerIDs.isNaga karar verir.
+        IOHIDManagerSetDeviceMatching(m, nil)
         let ctx = Unmanaged.passUnretained(self).toOpaque()
         IOHIDManagerRegisterDeviceMatchingCallback(m, { ctx, _, _, _ in
             guard let ctx else { return }
