@@ -56,6 +56,12 @@ Her eylem için tekrar davranışı seçilebilir: **tek sefer** (tuş basılı t
 - Xcode 16 veya sonrası, ya da yalnızca Command Line Tools (`xcode-select --install`)
 - Naga V3 Pro: USB kablosu ya da HyperSpeed alıcısı. Bluetooth'ta tuş ataması çalışır ama ışık, DPI ve pil çalışmayabilir.
 
+## Kablosuz (Bluetooth) kullanımı
+
+- Kablo çıkarılıp Bluetooth'a geçildiğinde tuş atamaları ve makrolar çalışmaya devam eder. Uygulama cihazı ürün adından (`Naga`) tanır, bağlantı türünden bağımsızdır.
+- **Bilinen sınır:** Bluetooth modunda ışık (renk ve efekt) cihaza gönderilemez. Uygulama bu durumda "Bluetooth modunda ışık kontrolü desteklenmez" uyarısını gösterir. Işık ayarları kablolu veya HyperSpeed alıcı ile yapılır, sonra Bluetooth'a geçilebilir; ayarlar cihazda saklanmaz, uygulama bağlanınca yeniden uygular.
+- Bluetooth'ta DPI ve pil bilgisi de alınamayabilir.
+
 ## Derleme ve kurulum
 
 ```bash
